@@ -10,8 +10,6 @@ Built with:
 - Clean architecture (internal/oba, internal/service, internal/httpapi)
 - Full unit test coverage for service + OBA client
 
----
-
 ## ✨ Features
 
 - Fetch real-time arrivals for any Puget Sound stop  
@@ -20,8 +18,6 @@ Built with:
 - Clean, frontend-friendly JSON
 - Simple to extend (nearby stops, routes, vehicles)
 - Fully testable with mocked OBA client + httptest.Server
-
----
 
 ## 🧱 Project Structure
 
@@ -35,8 +31,6 @@ transit-backend-go/
     service/            # core business logic
     httpapi/            # handlers + router (chi)
     cache/              # optional caching layer
-
----
 
 ## 🚀 Running the Server
 
@@ -54,8 +48,6 @@ go run ./cmd/server
 
 curl http://localhost:8080/api/stops/1_75403/arrivals | jq
 
----
-
 ## 🧪 Tests
 
 Run all tests:
@@ -66,8 +58,6 @@ Includes:
 - service tests with fake OBA client
 - OBA client tests using httptest.Server
 - chi handler tests using httptest
-
----
 
 ## 💡 Example Response
 
@@ -82,7 +72,6 @@ Includes:
   }
 ]
 
----
 
 ## 🗺️ Roadmap
 
@@ -92,7 +81,6 @@ Includes:
 - [ ] Redis or memory caching
 - [ ] Dockerfile + CI
 
----
 
 ## 📄 License
 
