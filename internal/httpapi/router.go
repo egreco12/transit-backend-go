@@ -12,6 +12,7 @@ func NewRouter(arrivals *ArrivalsHandler) http.Handler {
 
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(corsMiddleware)
 
 	r.Route("/api", func(api chi.Router) {
 		api.Route("/stops", func(sr chi.Router) {
@@ -20,4 +21,20 @@ func NewRouter(arrivals *ArrivalsHandler) http.Handler {
 	})
 
 	return r
+}
+
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// for local dev
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }
