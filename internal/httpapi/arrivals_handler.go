@@ -1,18 +1,23 @@
 package httpapi
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 
-	"github.com/egreco12/transit-backend-go/internal/service"
+	"github.com/egreco12/transit-backend-go/internal/domain"
 	"github.com/go-chi/chi/v5"
 )
 
-type ArrivalsHandler struct {
-	service *service.ArrivalService
+type ArrivalService interface {
+	GetArrivalsForStop(ctx context.Context, stopID string) ([]domain.Arrival, error)
 }
 
-func NewArrivalsHandler(svc *service.ArrivalService) *ArrivalsHandler {
+type ArrivalsHandler struct {
+	service ArrivalService
+}
+
+func NewArrivalsHandler(svc ArrivalService) *ArrivalsHandler {
 	return &ArrivalsHandler{service: svc}
 }
 
