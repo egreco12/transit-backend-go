@@ -13,25 +13,20 @@ func TestArrivalsForStop_SendsCorrectRequestAndParsesResponse(t *testing.T) {
 	const apiKey = "test-key"
 	const stopID = "STOP_1"
 
-	// Spin up a fake HTTP server to act as OBA
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Verify method
 		if r.Method != http.MethodGet {
 			t.Errorf("method = %s, want GET", r.Method)
 		}
 
-		// Verify path
 		expectedPath := "/arrivals-and-departures-for-stop/" + stopID + ".json"
 		if r.URL.Path != expectedPath {
 			t.Errorf("path = %s, want %s", r.URL.Path, expectedPath)
 		}
 
-		// Verify query param "key"
 		if gotKey := r.URL.Query().Get("key"); gotKey != apiKey {
 			t.Errorf("query key = %s, want %s", gotKey, apiKey)
 		}
 
-		// Respond with a minimal valid JSON body
 		now := time.Now().UnixMilli()
 
 		resp := ArrivalsResponse{
@@ -80,7 +75,6 @@ func TestArrivalsForStop_SendsCorrectRequestAndParsesResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	// Use the test server URL as baseURL so client hits httptest, not real OBA
 	client := NewClient(ts.URL, apiKey)
 
 	got, err := client.ArrivalsForStop(context.Background(), stopID)
@@ -113,7 +107,6 @@ func TestArrivalsForStop_HandlesErrorStatusCode(t *testing.T) {
 	const apiKey = "test-key"
 	const stopID = "STOP_1"
 
-	// Fake server that always returns 401
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "unauthorized", http.StatusUnauthorized)
 	}))
