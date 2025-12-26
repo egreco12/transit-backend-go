@@ -19,48 +19,34 @@ Built with:
 - Simple to extend (nearby stops, routes, vehicles)
 - Fully testable with mocked OBA client + httptest.Server
 
-## 🧱 Project Structure
-
-transit-backend-go/
-  cmd/
-    server/             # main app entrypoint
-  internal/
-    config/             # environment + config loading
-    oba/                # OneBusAway HTTP client + models
-    domain/             # domain models for frontend
-    service/            # core business logic
-    httpapi/            # handlers + router (chi)
-    cache/              # optional caching layer
-
 ## 🚀 Running the Server
 
 ### 1. Set environment variables
 
+```
 export ONEBUSAWAY_API_KEY=your_real_key
 export PORT=8080
 export ONEBUSAWAY_BASE_URL=https://api.pugetsound.onebusaway.org/api/where
+```
 
 ### 2. Start the server
-
+```
 go run ./cmd/server
-
+```
 ### 3. Test an endpoint
-
+```
 curl http://localhost:8080/api/stops/1_75403/arrivals | jq
+```
 
 ## 🧪 Tests
 
 Run all tests:
-
+```
 go test ./...
-
-Includes:
-- service tests with fake OBA client
-- OBA client tests using httptest.Server
-- chi handler tests using httptest
+```
 
 ## 💡 Example Response
-
+```
 [
   {
     "routeId": "ROUTE_1",
@@ -71,17 +57,4 @@ Includes:
     "predicted": true
   }
 ]
-
-
-## 🗺️ Roadmap
-
-- [ ] Nearby stops endpoint
-- [ ] Vehicle positions
-- [ ] Route shapes
-- [ ] Redis or memory caching
-- [ ] Dockerfile + CI
-
-
-## 📄 License
-
-MIT (or your chosen license)
+```
