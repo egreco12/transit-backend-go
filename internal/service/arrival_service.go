@@ -8,11 +8,15 @@ import (
 	"github.com/egreco12/transit-backend-go/internal/oba"
 )
 
-type ArrivalService struct {
-	oba *oba.Client
+type OBAClient interface {
+	ArrivalsForStop(ctx context.Context, stopID string) (*oba.ArrivalsResponse, error)
 }
 
-func NewArrivalService(obaClient *oba.Client) *ArrivalService {
+type ArrivalService struct {
+	oba OBAClient
+}
+
+func NewArrivalService(obaClient OBAClient) *ArrivalService {
 	return &ArrivalService{
 		oba: obaClient,
 	}
